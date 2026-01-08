@@ -9,8 +9,8 @@ LABEL description="Bastion SSH Server for Ansible ProxyCommand with PermitOpen r
 # 更新套件管理器並安裝 OpenSSH
 RUN apk update && \
     apk add --no-cache \
-        openssh=9.3_p2-r1 \
-        openssh-client=9.3_p2-r1 \
+        openssh \
+        openssh-client \
         bash \
         doas \
     && rm -rf /var/cache/apk/*
