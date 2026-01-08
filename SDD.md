@@ -982,5 +982,5 @@ docker inspect ansible-bastion | grep -A 10 "State"
 
 ---
 
-**文檔所有者：** Claude
+**文檔所有者：** Riven-dev1030
 **最後修改：** 2026-01-09

@@ -39,6 +39,7 @@ services:
       - SETUID
       - SETGID
       - DAC_OVERRIDE
+      - SYS_CHROOT
 
   # 注意：如果需要 Ansible 控制節點用於測試，請參考 examples/ansible-integration/
   # 的範例配置

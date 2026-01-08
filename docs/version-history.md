@@ -1,5 +1,21 @@
 # 版本歷史
 
+## [1.0.1] - 2026-01-09
+
+### 修復
+- 修復 SSH 連接認證問題（Privilege Separation chroot 失敗）
+  * docker-compose.yml：添加 SYS_CHROOT capability
+  * config/sshd_config：添加 PubkeyAcceptedAlgorithms 支援 ssh-rsa 簽章
+- 修正 SDD.md 和問題報告的所有者署名
+
+### 新增
+- docs/troubleshooting/2026-01-09-ssh-connection-issues.md：SSH 連接問題的完整解決報告
+  * 包含三個問題的詳細分析、根本原因和修復方案
+  * 安全性評估和驗證步驟
+  * 故障排除流程和後續建議
+
+---
+
 ## [1.0.0] - 2026-01-09
 
 ### 新增
