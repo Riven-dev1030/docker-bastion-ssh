@@ -27,7 +27,6 @@ PubkeyAuthentication yes
 PasswordAuthentication no
 PermitEmptyPasswords no
 ChallengeResponseAuthentication no
-UsePAM yes
 
 # ============================================
 # 根使用者相關
@@ -91,11 +90,9 @@ UseDNS no
 Compression no
 ClientAliveCountMax 2
 TCPKeepAlive yes
-UseLogin no
-UsePrivilegeSeparation sandbox
 PermitUserEnvironment no
 Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com
-MACs hmac-sha2-256,hmac-sha2-512,umac-128@openssh.com,umac-256@openssh.com
+MACs hmac-sha2-256,hmac-sha2-512
 KexAlgorithms curve25519-sha256,curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256
 
 # ============================================
