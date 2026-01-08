@@ -1,0 +1,38 @@
+# SSH Keys (敏感資料，不應提交)
+config/authorized_keys
+*.pem
+*.key
+*_rsa
+*_rsa.pub
+id_*
+
+# Docker
+*.log
+.env
+.env.local
+
+# 容器數據
+volumes/
+data/
+logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 備份檔案
+*.bak
+*.backup
+*.old
+
+# Temporary files
+*.tmp
+*.temp

@@ -1,0 +1,39 @@
+[defaults]
+# Inventory 檔案位置
+inventory = ./inventory.yml
+
+# 停用主機密鑰檢查（開發環境）
+# 生產環境建議啟用並管理 known_hosts
+host_key_checking = False
+
+# 平行執行數量
+forks = 5
+
+# 逾時設定
+timeout = 30
+
+# 日誌檔案（可選）
+# log_path = ./ansible.log
+
+[inventory]
+# 啟用 YAML inventory 插件
+enable_plugins = host_list, script, auto, yaml, ini, toml
+
+[ssh_connection]
+# SSH 連接參數
+# 方法 1：全局配置跳板機（所有連接都使用）
+# ssh_args = -o ProxyCommand="ssh -W %h:%p -i ~/.ssh/bastion_key -p 2222 root@localhost" -o StrictHostKeyChecking=no
+
+# SSH 連接逾時
+ssh_conn_timeout = 30
+
+# 啟用 pipelining（提升效能）
+pipelining = True
+
+# 控制路徑（用於連接複用）
+control_path = %(directory)s/ansible-ssh-%%h-%%p-%%r
+
+[persistent_connection]
+# 持久連接逾時（網路設備）
+connect_timeout = 30
+command_timeout = 30

@@ -1,0 +1,114 @@
+# Ansible Inventory 範例
+# 展示如何配置透過 Bastion 跳板機連接到網路設備
+
+all:
+  vars:
+    # 跳板機配置（方法 1：在 inventory 中配置）
+    # 所有子主機都會繼承這個配置
+    ansible_ssh_common_args: >
+      -o ProxyCommand="ssh -W %h:%p -i ~/.ssh/bastion_key -p 2222 root@localhost"
+      -o StrictHostKeyChecking=no
+
+  children:
+    # 網路設備組
+    network_devices:
+      vars:
+        # Cisco IOS 設備通用配置
+        ansible_connection: network_cli
+        ansible_network_os: ios
+        ansible_user: admin
+        # 密碼可以使用 Ansible Vault 加密
+        # ansible_password: "{{ vault_device_password }}"
+
+      children:
+        # 路由器組
+        routers:
+          hosts:
+            R1:
+              ansible_host: 192.168.1.11
+            R2:
+              ansible_host: 192.168.1.12
+            R3:
+              ansible_host: 192.168.1.13
+
+        # 交換機組
+        switches:
+          hosts:
+            SW1:
+              ansible_host: 192.168.1.21
+            SW2:
+              ansible_host: 192.168.1.22
+
+    # Linux 伺服器組（範例）
+    linux_servers:
+      vars:
+        ansible_connection: ssh
+        ansible_user: root
+        # Linux 設備通常也需要透過跳板機
+        # 可以使用相同的 ansible_ssh_common_args（繼承自 all）
+      hosts:
+        web-server:
+          ansible_host: 192.168.1.100
+        db-server:
+          ansible_host: 192.168.1.101
+
+    # 跳板機本身（可選，用於管理跳板機）
+    bastion:
+      hosts:
+        bastion-host:
+          ansible_host: localhost
+          ansible_port: 2222
+          ansible_user: root
+          ansible_ssh_private_key_file: ~/.ssh/bastion_key
+          # 跳板機本身不需要 ProxyCommand
+          ansible_ssh_common_args: ""
+
+
+# ============================================
+# 進階配置範例
+# ============================================
+
+# 範例 1：使用環境變數
+# all:
+#   vars:
+#     bastion_host: "{{ lookup('env', 'BASTION_HOST') | default('localhost') }}"
+#     bastion_port: "{{ lookup('env', 'BASTION_PORT') | default('2222') }}"
+#     bastion_key: "{{ lookup('env', 'BASTION_KEY') | default('~/.ssh/bastion_key') }}"
+#     ansible_ssh_common_args: >
+#       -o ProxyCommand="ssh -W %h:%p -i {{ bastion_key }} -p {{ bastion_port }} root@{{ bastion_host }}"
+
+# 範例 2：多環境配置（不同跳板機）
+# all:
+#   children:
+#     production:
+#       vars:
+#         ansible_ssh_common_args: >
+#           -o ProxyCommand="ssh -W %h:%p -i ~/.ssh/prod_bastion -p 2222 root@prod-bastion.example.com"
+#       hosts:
+#         prod-router:
+#           ansible_host: 10.0.1.1
+#
+#     staging:
+#       vars:
+#         ansible_ssh_common_args: >
+#           -o ProxyCommand="ssh -W %h:%p -i ~/.ssh/stag_bastion -p 2222 root@stag-bastion.example.com"
+#       hosts:
+#         stag-router:
+#           ansible_host: 10.1.1.1
+
+# 範例 3：特定主機使用不同跳板機
+# all:
+#   children:
+#     mixed_environment:
+#       hosts:
+#         device1:
+#           ansible_host: 192.168.1.11
+#           # 使用跳板機 A
+#           ansible_ssh_common_args: >
+#             -o ProxyCommand="ssh -W %h:%p -i ~/.ssh/bastion_a -p 2222 root@bastion-a.local"
+#
+#         device2:
+#           ansible_host: 192.168.2.11
+#           # 使用跳板機 B
+#           ansible_ssh_common_args: >
+#             -o ProxyCommand="ssh -W %h:%p -i ~/.ssh/bastion_b -p 2222 root@bastion-b.local"
