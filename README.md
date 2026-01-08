@@ -303,4 +303,4 @@ MIT License
 
 ---
 
-**注意**：本專案從 [ansible-network-lab](https://github.com/username/ansible-network-lab) 專案分離而來，專注於提供通用的 SSH 跳板機解決方案。
+**注意**：本專案從 [ansible-network-lab](https://github.com/Riven-dev1030/ansible-network-lab) 專案分離而來，專注於提供通用的 SSH 跳板機解決方案。
